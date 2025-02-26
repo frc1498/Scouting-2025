@@ -161,37 +161,37 @@ var config_data = `
 
     { "name": "Coral L3",
       "code": "ac3",
-      "type": "bool",
+      "type": "counter",
       "idx": 4,
       "column": 0
     },
     { "name": "Coral L3",
       "code": "ac32",
-      "type": "bool",
+      "type": "counter",
       "idx": 4,
       "column": 2
     },
     { "name": "Coral L3",
       "code": "ac33",
-      "type": "bool",
+      "type": "counter",
       "idx": 4,
       "column": 4
     },
     { "name": "Coral L4",
       "code": "ac4",
-      "type": "bool",
+      "type": "counter",
       "idx": 5,
       "column": 0
     },
     { "name": "Coral L4",
       "code": "ac42",
-      "type": "bool",
+      "type": "counter",
       "idx": 5,
       "column": 2
     },
     { "name": "Coral L4",
       "code": "ac43",
-      "type": "bool",
+      "type": "counter",
       "idx": 5,
       "column": 4
     },

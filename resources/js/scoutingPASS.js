@@ -13,6 +13,7 @@ var slide = 0;
 var enableGoogleSheets = false;
 var pitScouting = false;
 var checkboxAs = 'YN';
+var ColWidth = '200px';
 
 // Options
 var options = {
@@ -21,27 +22,31 @@ var options = {
   quietZoneColor: '#FFFFFF'
 };
 
-// Must be filled in: e=event, m=match#, l=level(q,qf,sf,f), t=team#, r=robot(r1,r2,b1..), s=scouter
-//var requiredFields = ["e", "m", "l", "t", "r", "s", "as"];
-var requiredFields = ["e", "m", "l", "r", "s", "as"];
+// Built from the JSON
+var requiredFields = []; //["e", "m", "l", "r", "s", "as"];
 
-function addTimer(table, idx, name, data) {
-  var row = table.insertRow(idx);
-  var cell1 = row.insertCell(0);
+function addTimer(table, rowNumber, name, data) {
+  if(data.idx != rowNumber){
+    var row = table.insertRow(data.idx);
+  }else{
+    var rows = table.rows;
+    var row = rows[data.idx];
+  }
+  var cell1 = row.insertCell(data.column);
   cell1.setAttribute("colspan", 2);
   cell1.setAttribute("style", "text-align: center;");
   cell1.classList.add("title");
   if (!data.hasOwnProperty('code')) {
     cell1.innerHTML = `Error: No code specified for ${name}`;
-    return idx + 1;
+    return data.idx;//idx + 1;
   }
   cell1.innerHTML = name;
   if (data.hasOwnProperty('tooltip')) {
     cell1.setAttribute("title", data.tooltip);
   }
-
-  idx += 1
-  row = table.insertRow(idx);
+  var newRow = data.idx;
+  newRow += 1;
+  row = table.insertRow(newRow);
   cell = row.insertCell(0);
   cell.setAttribute("colspan", 2);
   cell.setAttribute("style", "text-align: center;");
@@ -120,8 +125,8 @@ function addTimer(table, idx, name, data) {
     cell.appendChild(button4);
   }
 
-  idx += 1
-  row = table.insertRow(idx);
+  newRow += 1
+  row = table.insertRow(newRow);
   row.setAttribute("style", "display:none");
   cell = row.insertCell(0);
   cell.setAttribute("colspan", 2);
@@ -145,18 +150,26 @@ function addTimer(table, idx, name, data) {
     cell2.appendChild(def);
   }
 
-  return idx + 1;
+  return data.idx;//idx + 1;
 }
 
-function addCounter(table, idx, name, data) {
-  var row = table.insertRow(idx);
-  var cell1 = row.insertCell(0);
+function addCounter(table, rowNumber, name, data) {
+  if(data.idx != rowNumber){
+    var row = table.insertRow(data.idx);
+  }else{
+    var rows = table.rows;
+    var row = rows[data.idx];
+  }
+  var cell1 = row.insertCell(data.column);
+  cell1.style.width = ColWidth;
   cell1.classList.add("title");
   if (!data.hasOwnProperty('code')) {
     cell1.innerHTML = `Error: No code specified for ${name}`;
-    return idx + 1;
+    return data.idx; //idx++
   }
-  var cell2 = row.insertCell(1);
+  var cellNumber = data.column + 1;
+  var cell2 = row.insertCell(cellNumber);
+  cell2.style.width = ColWidth;
   cell1.innerHTML = name + '&nbsp;';
   if (data.hasOwnProperty('tooltip')) {
     cell1.setAttribute("title", data.tooltip);
@@ -211,18 +224,23 @@ function addCounter(table, idx, name, data) {
     cell2.appendChild(def);
   }
 
-  return idx + 1;
+  return data.idx;//idx + 1;
 }
 
-function addClickableImage(table, idx, name, data) {
-  var row = table.insertRow(idx);
-  var cell = row.insertCell(0);
+function addClickableImage(table, rowNumber, name, data) {
+  if(data.idx != rowNumber){
+    var row = table.insertRow(data.idx);
+  }else{
+    var rows = table.rows;
+    var row = rows[data.idx];
+  }
+  var cell = row.insertCell(data.column);
   cell.setAttribute("colspan", 2);
   cell.setAttribute("style", "text-align: center;");
   cell.classList.add("title");
   if (!data.hasOwnProperty('code')) {
     cell1.innerHTML = `Error: No code specified for ${name}`;
-    return idx + 1;
+    return data.idx;//idx + 1;
   }
   cell.innerHTML = name;
   if (data.hasOwnProperty('tooltip')) {
@@ -242,10 +260,10 @@ function addClickableImage(table, idx, name, data) {
       showUndo = false;
     }
   }
-
+  var newRow = data.idx;
   if (showFlip || showUndo) {
-    idx += 1
-    row = table.insertRow(idx);
+    newRow += 1;
+    row = table.insertRow(newRow);
     cell = row.insertCell(0);
     cell.setAttribute("colspan", 2);
     cell.setAttribute("style", "text-align: center;");
@@ -276,8 +294,8 @@ function addClickableImage(table, idx, name, data) {
     }
   }
 
-  idx += 1;
-  row = table.insertRow(idx);
+  newRow += 1;
+  row = table.insertRow(newRow);
   cell = row.insertCell(0);
   cell.setAttribute("colspan", 2);
   cell.setAttribute("style", "text-align: center;");
@@ -289,8 +307,8 @@ function addClickableImage(table, idx, name, data) {
   canvas.innerHTML = "No canvas support";
   cell.appendChild(canvas);
 
-  idx += 1;
-  row = table.insertRow(idx);
+  newRow += 1;
+  row = table.insertRow(newRow);
   row.setAttribute("style", "display:none");
   cell = row.insertCell(0);
   cell.setAttribute("colspan", 2);
@@ -383,8 +401,8 @@ function addClickableImage(table, idx, name, data) {
     }
   }
 
-  idx += 1
-  row = table.insertRow(idx);
+  newRow += 1
+  row = table.insertRow(newRow);
   row.setAttribute("style", "display:none");
   cell = row.insertCell(0);
   cell.setAttribute("colspan", 2);
@@ -396,18 +414,26 @@ function addClickableImage(table, idx, name, data) {
   img.setAttribute("hidden", "");
   cell.appendChild(img);
 
-  return idx + 1
+  return data.idx;//idx + 1
 }
 
-function addText(table, idx, name, data) {
-  var row = table.insertRow(idx);
-  var cell1 = row.insertCell(0);
+function addText(table, rowNumber, name, data) {
+  if(data.idx != rowNumber){
+    var row = table.insertRow(data.idx);
+  }else{
+    var rows = table.rows;
+    var row = rows[data.idx];
+  }
+  var cell1 = row.insertCell(data.column);
+  cell1.style.width = ColWidth;
   cell1.classList.add("title");
   if (!data.hasOwnProperty('code')) {
     cell1.innerHTML = `Error: No code specified for ${name}`;
-    return idx + 1;
+    return data.idx; //removed: idx + 1;
   }
-  var cell2 = row.insertCell(1);
+  var cellNumber = data.column + 1;
+  var cell2 = row.insertCell(cellNumber);
+  cell2.style.width = ColWidth;
   cell1.innerHTML = name + '&nbsp;';
   if (data.hasOwnProperty('tooltip')) {
     cell1.setAttribute("title", data.tooltip);
@@ -449,18 +475,67 @@ function addText(table, idx, name, data) {
     cell2.appendChild(def);
   }
 
-  return idx + 1
+  return data.idx;
 }
 
-function addNumber(table, idx, name, data) {
-  var row = table.insertRow(idx);
-  var cell1 = row.insertCell(0);
+//Added to create title element
+function addTitle(table, rowNumber, name, data) {
+  if(data.idx != rowNumber){
+    var row = table.insertRow(data.idx);
+  }else{
+    var rows = table.rows;
+    var row = rows[data.idx];
+  }
+  var cell1 = row.insertCell(data.column);
+  cell1.style.width = ColWidth;
+  cell1.classList.add("title");
+  var cellNumber = data.column + 1;
+  var cell2 = row.insertCell(cellNumber);
+  cell2.style.width = ColWidth;
+  cell1.innerHTML = "Team # " + data.team + '&nbsp;';
+  cell1.setAttribute("title", "Team #");
+  cell2.classList.add("field");
+  var inp = document.createElement("h4");
+  inp.setAttribute("id", "header_" + name);
+  inp.setAttribute("class", "header_" + data.team);
+  cell2.appendChild(inp);
+  return data.idx;
+}
+
+function updateTitle(){
+  var title1 = document.getElementById("input_t").value;
+  //var title2 = document.getElementById("input_t2").value;
+  //var title3 = document.getElementById("input_t3").value;
+  document.getElementsByClassName("header_1")[0].innerHTML = title1;
+  document.getElementsByClassName("header_1")[1].innerHTML = title1;
+  document.getElementsByClassName("header_1")[2].innerHTML = title1;
+  document.getElementsByClassName("header_1")[3].innerHTML = title1;
+ // document.getElementsByClassName("header_2")[0].innerHTML = title2;
+  //document.getElementsByClassName("header_2")[1].innerHTML = title2;
+ // document.getElementsByClassName("header_2")[2].innerHTML = title2;
+ // document.getElementsByClassName("header_3")[0].innerHTML = title3;
+ // document.getElementsByClassName("header_3")[1].innerHTML = title3;
+ // document.getElementsByClassName("header_3")[2].innerHTML = title3;
+  //alert("title1");
+}
+
+function addNumber(table, rowNumber, name, data) {
+  if(data.idx != rowNumber){
+    var row = table.insertRow(data.idx);
+  }else{
+    var rows = table.rows;
+    var row = rows[data.idx];
+  }
+  var cell1 = row.insertCell(data.column);
+  cell1.style.width = ColWidth;
   cell1.classList.add("title");
   if (!data.hasOwnProperty('code')) {
     cell1.innerHTML = `Error: No code specified for ${name}`;
-    return idx + 1;
+    return data.idx;//idx + 1;
   }
-  var cell2 = row.insertCell(1);
+  var cellNumber = data.column + 1;
+  var cell2 = row.insertCell(cellNumber);
+  cell2.style.width = ColWidth;
   cell1.innerHTML = name + '&nbsp;';
   if (data.hasOwnProperty('tooltip')) {
     cell1.setAttribute("title", data.tooltip);
@@ -476,7 +551,9 @@ function addNumber(table, idx, name, data) {
   }
   if ((data.type == 'team') ||
     (data.type == 'match')) {
-    inp.setAttribute("onchange", "updateMatchStart(event)");
+      //Added another onchange
+    inp.setAttribute("onchange", "updateMatchStart(event);updateTitle();");
+
   }
   if (data.hasOwnProperty('min')) {
     inp.setAttribute("min", data.min);
@@ -504,26 +581,34 @@ function addNumber(table, idx, name, data) {
   }
 
   if (data.type == 'team') {
-    idx += 1
-    row = table.insertRow(idx);
+    var newRow = data.idx + 1;
+    row = table.insertRow(newRow);
     cell1 = row.insertCell(0);
     cell1.setAttribute("id", "teamname-label");
     cell1.setAttribute("colspan", 2);
     cell1.setAttribute("style", "text-align: center;");
   }
 
-  return idx + 1;
+  return data.idx;// idx + 1;
 }
 
-function addRadio(table, idx, name, data) {
-  var row = table.insertRow(idx);
-  var cell1 = row.insertCell(0);
+function addRadio(table, rowNumber, name, data) {
+  if(data.idx != rowNumber){
+    var row = table.insertRow(data.idx);
+  }else{
+    var rows = table.rows;
+    var row = rows[data.idx];
+  }
+  var cell1 = row.insertCell(data.column);
+  cell1.style.width = ColWidth;
   cell1.classList.add("title");
   if (!data.hasOwnProperty('code')) {
     cell1.innerHTML = `Error: No code specified for ${name}`;
-    return idx + 1;
+    return data.idx;//idx + 1;
   }
-  var cell2 = row.insertCell(1);
+  var cellNumber = data.column + 1;
+  var cell2 = row.insertCell(cellNumber);
+  cell2.style.width = ColWidth;
   cell1.innerHTML = name + '&nbsp;';
   if (data.hasOwnProperty('tooltip')) {
     cell1.setAttribute("title", data.tooltip);
@@ -571,19 +656,27 @@ function addRadio(table, idx, name, data) {
     cell2.appendChild(def);
   }
 
-  return idx + 1;
+  return data.idx;//idx + 1;
 }
 
-function addCheckbox(table, idx, name, data) {
-  var row = table.insertRow(idx);
-  var cell1 = row.insertCell(0);
+function addCheckbox(table, rowNumber, name, data) {
+  if(data.idx != rowNumber){
+    var row = table.insertRow(data.idx);
+  }else{
+    var rows = table.rows;
+    var row = rows[data.idx];
+  }
+  var cell1 = row.insertCell(data.column);
+  cell1.style.width = ColWidth;
   cell1.classList.add("title");
   if (!data.hasOwnProperty('code')) {
     cell1.innerHTML = `Error: No code specified for ${name}`;
-    return idx + 1;
+    return data.idx;//idx + 1;
   }
-  var cell2 = row.insertCell(1);
+  var cellNumber = data.column + 1;
+  var cell2 = row.insertCell(cellNumber);
   cell1.innerHTML = name + '&nbsp;';
+  cell2.style.width = ColWidth;
   if (data.hasOwnProperty('tooltip')) {
     cell1.setAttribute("title", data.tooltip);
   }
@@ -610,7 +703,7 @@ function addCheckbox(table, idx, name, data) {
     cell2.appendChild(def);
   }
 
-  return idx + 1;
+  return data.idx;//idx + 1;
 }
 
 function addElement(table, idx, data) {
@@ -659,10 +752,18 @@ function addElement(table, idx, data) {
   } else if ((data.type == 'timer') ||
     (data.type == 'cycle')) {
     idx = addTimer(table, idx, name, data);
+  } else if ((data.type == 'title')) {
+    idx = addTitle(table, idx, name, data);
   } else {
     console.log(`Unrecognized type: ${data.type}`);
   }
   return idx
+}
+
+function buildRequiredElementList(element) {
+	if (element.required == "true") {
+		requiredFields.push(element.code);
+	}
 }
 
 function configure() {
@@ -675,6 +776,7 @@ function configure() {
     var table = document.getElementById("prematch_table")
     var row = table.insertRow(0);
     var cell1 = row.insertCell(0);
+	cell1.style.width = ColWidth;
     cell1.innerHTML = `Error parsing configuration file: ${err.message}<br><br>Use a tool like <a href="http://jsonlint.com/">http://jsonlint.com/</a> to help you debug your config file`
     return -1
   }
@@ -722,15 +824,16 @@ function configure() {
   // Configure prematch screen
   var pmc = mydata.prematch;
   var pmt = document.getElementById("prematch_table");
-  var idx = 0;
+  var idx = -1;
   pmc.forEach(element => {
     idx = addElement(pmt, idx, element);
+	buildRequiredElementList(element);
   });
 
   // Configure auton screen
   var ac = mydata.auton;
   var at = document.getElementById("auton_table");
-  idx = 0;
+  idx = -1; 
   ac.forEach(element => {
     idx = addElement(at, idx, element);
   });
@@ -738,7 +841,7 @@ function configure() {
   // Configure teleop screen
   var tc = mydata.teleop;
   var tt = document.getElementById("teleop_table");
-  idx = 0;
+  idx = -1;
   tc.forEach(element => {
     idx = addElement(tt, idx, element);
   });
@@ -746,7 +849,7 @@ function configure() {
   // Configure endgame screen
   var egc = mydata.endgame;
   var egt = document.getElementById("endgame_table");
-  idx = 0;
+  idx = -1;
   egc.forEach(element => {
     idx = addElement(egt, idx, element);
   });
@@ -754,7 +857,7 @@ function configure() {
   // Configure postmatch screen
   pmc = mydata.postmatch;
   pmt = document.getElementById("postmatch_table");
-  var idx = 0;
+  var idx = -1;
   pmc.forEach(element => {
     idx = addElement(pmt, idx, element);
   });
@@ -763,7 +866,7 @@ function configure() {
     document.getElementById("submit").style.display = "none";
   }
 
-  return 0
+  return 0;
 }
 
 function getRobot(){
@@ -786,16 +889,16 @@ function validateData() {
   var errStr = "";
   for (rf of requiredFields) {
     var thisRF = document.forms.scoutingForm[rf];
-    if (thisRF.value == "[]" || thisRF.value.length == 0) {
-      if (rf == "as") {
-        rftitle = "Auto Start Position"
-      } else {
-        thisInputEl = thisRF instanceof RadioNodeList ? thisRF[0] : thisRF;
-        rftitle = thisInputEl.parentElement.parentElement.children[0].innerHTML.replace("&nbsp;","");
-      }
-      errStr += rf + ": " + rftitle + "\n";
-      ret = false;
-    }
+	if (thisRF.value == "[]" || thisRF.value.length == 0) {
+	  if (rf == "as") {
+		rftitle = "Auto Start Position"
+	  } else {
+		thisInputEl = thisRF instanceof RadioNodeList ? thisRF[0] : thisRF;
+		rftitle = thisInputEl.parentElement.parentElement.children[0].innerHTML.replace("&nbsp;","");
+	  }
+	  errStr += rf + ": " + rftitle + "\n";
+	  ret = false;
+	}
   }
   if (ret == false) {
     alert("Enter all required values\n" + errStr);

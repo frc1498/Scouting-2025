@@ -10,13 +10,17 @@ var config_data = `
       "type": "scouter",
       "size": 5,
       "maxSize": 5,
-      "required": "true"
+      "required": "true",
+      "idx": 0,
+      "column": 0
     },
     { "name": "Event",
       "code": "e",
       "type": "event",
-      "defaultValue": "2025ilpe",
-      "required": "true"
+      "defaultValue": "Worlds",
+      "required": "true", 
+      "idx": 1,
+      "column": 0
     },
     { "name": "Match Level",
       "code": "l",
@@ -27,98 +31,155 @@ var config_data = `
         "f": "Finals"
       },
       "defaultValue": "qm",
-      "required": "true"
+      "required": "true",
+      "idx": 2,
+      "column": 0
     },
     { "name": "Match #",
       "code": "m",
       "type": "match",
       "min": 1,
       "max": 150,
-      "required": "true"
+      "required": "true",
+      "idx": 3,
+      "column": 0
     },
-    { "name": "Robot",
+    { "name": "Alliance",
       "code": "r",
       "type": "robot",
       "choices": {
-        "r1": "Red-1",
-        "b1": "Blue-1<br>",
-        "r2": "Red-2",
-        "b2": "Blue-2<br>",
-        "r3": "Red-3",
-        "b3": "Blue-3"
+        "r1": "Red 1",
+        "b1": "Blue 1<br>",
+        "r2": "Red 2",
+        "b2": "Blue 2<br>",
+        "r3": "Red 3",
+        "b3": "Blue 3"
       },
-      "required":"true"
+      "required":"true",
+      "idx": 4,
+      "column": 0
     },
-    { "name": "Team #",
+    { "name": "Team #1",
       "code": "t",
       "type": "team",
       "min": 1,
-      "max": 99999
-    },
-    { "name": "Auto Start Position",
-      "code": "as",
-      "type": "clickable_image",
-      "filename": "2025/field_image.png",
-      "clickRestriction": "one",
-      "allowableResponses": "6 7 18 19 30 31 42 43 54 55 66 67",
-      "shape": "circle 5 black red true"
+      "max": 99999,
+      "idx": 5,
+      "column": 0
     }
+   
+       
   ],
   "auton": [
+    { "name": "1",
+      "code": "header_1",
+      "type": "title",
+      "team": "1",
+      "idx": 0,
+      "column": 0
+    },
+    
     { "name": "Leave Starting Line",
       "code": "al",
-      "type": "bool"
+      "type": "bool",
+      "idx": 1,
+      "column": 0
     },
-    { "name": "Coral L1",
+    
+       { "name": "Coral L1",
       "code": "ac1",
-      "type": "counter"
+      "type": "counter",
+      "idx": 2,
+      "column": 0
     },
-    { "name": "Coral L2",
+    
+       { "name": "Coral L2",
       "code": "ac2",
-      "type": "counter"
+      "type": "counter",
+      "idx": 3,
+      "column": 0
     },
-    { "name": "Coral L3",
+    
+      { "name": "Coral L3",
       "code": "ac3",
-      "type": "counter"
+      "type": "counter",
+      "idx": 4,
+      "column": 0
     },
+    
     { "name": "Coral L4",
       "code": "ac4",
-      "type": "counter"
+      "type": "counter",
+      "idx": 5,
+      "column": 0
     },
+    
     { "name": "Processor Score",
       "code": "aps",
-      "type": "counter"
+      "type": "counter",
+      "idx": 6,
+      "column": 0
     },
-    { "name": "Net Score",
+    
+      { "name": "Net Score",
       "code": "ans",
-      "type": "counter"
+      "type": "counter",
+      "idx": 7,
+      "column": 0
     }
+   
   ],
   "teleop": [
+    { "name": "11",
+      "code": "header_1",
+      "type": "title",
+      "team": "1",
+      "idx": 0,
+      "column": 0
+    },
+    
     { "name": "Coral L1",
       "code": "tc1",
-      "type": "counter"
+      "type": "counter",
+      "idx": 1,
+      "column": 0
     },
+    
     { "name": "Coral L2",
       "code": "tc2",
-      "type": "counter"
+      "type": "counter",
+      "idx": 2,
+      "column": 0
     },
+    
     { "name": "Coral L3",
       "code": "tc3",
-      "type": "counter"
+      "type": "counter",
+      "idx": 3,
+      "column": 0
     },
+    
     { "name": "Coral L4",
       "code": "tc4",
-      "type": "counter"
+      "type": "counter",
+      "idx": 4,
+      "column": 0
     },
+   
     { "name": "Processor Score",
       "code": "tps",
-      "type": "counter"
+      "type": "counter",
+      "idx": 5,
+      "column": 0
     },
+    
     { "name": "Net Score",
       "code": "tns",
-      "type": "counter"
+      "type": "counter",
+      "idx": 6,
+      "column": 0
     },
+    
     { "name": "Pickup From",
       "code": "tpu",
       "type": "radio",
@@ -128,100 +189,70 @@ var config_data = `
         "b": "Both<br>",
         "x": "Not Attempted"
       },
-      "defaultValue": "x"
-    },
-    { "name": "Scored in Opponent Processor",
-      "code": "opp",
-      "type": "bool"
+      "defaultValue": "x",
+      "idx": 7,
+      "column": 0
     }
-  ],
+    
+ ],
   "endgame": [
-    { "name": "Barge Timer",
-      "code": "ebt",
-      "type": "timer"
+    { "name": "111",
+      "code": "header_1",
+      "type": "title",
+      "team": "1",
+      "idx": 0,
+      "column": 0
     },
-    { "name": "Final Status",
+        
+    { "name": "Final Robot Status",
       "code": "efs",
       "type":"radio",
       "choices": {
         "bp": "Parked<br>",
-        "ba": "Parked, failed climb<br>",
+        "ba": "Parked/Fail Climb<br>",
         "bs": "Shallow Cage<br>",
         "bd": "Deep Cage<br>",
         "x": "Not attempted"
       },
-      "defaultValue": "x"
+      "defaultValue": "x",
+      "idx": 1,
+      "column": 0
     }
+    
   ],
   "postmatch": [
-    { "name": "Attained Coopertition Pt",
-      "code": "cop",
-      "type": "bool"
+    { "name": "1111",
+      "code": "header_1",
+      "type": "title",
+      "team": "1",
+      "idx": 0,
+      "column": 0
     },
-    { "name": "Algae Left in Reef",
-      "code": "alr",
-      "type": "number",
-      "min": 0,
-      "max": 9,
-      "defaultValue": 0
-    },
-    { "name": "Driver Skill",
-      "code": "ds",
-      "type": "radio",
-      "choices": {
-        "n": "Not Effective<br>",
-        "a": "Average<br>",
-        "v": "Very Effective<br>",
-        "x": "Not Observed"
-      },
-      "defaultValue": "x"
-    },
-    { "name": "Defense Rating",
-      "code": "dr",
-      "type": "radio",
-      "choices": {
-        "b": "Below Average<br>",
-        "a": "Average<br>",
-        "g": "Good<br>",
-        "e": "Excellent<br>",
-        "x": "Did not play defense"
-      },
-      "defaultValue": "x"
-    },
-    { "name": "Speed Rating",
-      "code": "sr",
-      "type": "radio",
-      "choices": {
-        "1": "1 (slow)<br>",
-        "2": "2<br>",
-        "3": "3<br>",
-        "4": "4<br>",
-        "5": "5 (fast)"
-      },
-      "defaultValue":"3"
-    },
+    
     { "name": "Died/Immobilized",
       "code": "die",
-      "type": "bool"
+      "type": "bool",
+      "idx": 1,
+      "column": 0
     },
+    
     { "name": "Tippy<br>(almost tipped over)",
       "code": "tip",
-      "type": "bool"
+      "type": "bool",
+      "idx": 2,
+      "column": 0
     },
-    { "name": "Dropped Coral (>2)",
-      "code": "dc",
-      "type": "bool"
-    },
-    { "name": "Dropped Algae (>2)",
-      "code": "da",
-      "type": "bool"
-    },
-   
+    
+    
     { "name": "Comments",
       "code": "co",
       "type": "text",
       "size": 15,
-      "maxSize": 55
+      "maxSize": 55,
+      "idx": 3,
+      "column": 0
     }
+    
+    
   ]
 }`;

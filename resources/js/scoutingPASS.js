@@ -2,7 +2,7 @@
 //
 // The guts of the ScountingPASS application
 // Written by Team 2451 - PWNAGE
-
+//
 document.addEventListener("touchstart", startTouch, false);
 document.addEventListener("touchend", moveTouch, false);
 
@@ -504,19 +504,21 @@ function addTitle(table, rowNumber, name, data) {
 
 function updateTitle(){
   var title1 = document.getElementById("input_t").value;
-  var title2 = document.getElementById("input_t2").value;
-  var title3 = document.getElementById("input_t3").value;
+  //var title2 = document.getElementById("input_t2").value;
+  //var title3 = document.getElementById("input_t3").value;
   document.getElementsByClassName("header_1")[0].innerHTML = title1;
   document.getElementsByClassName("header_1")[1].innerHTML = title1;
   document.getElementsByClassName("header_1")[2].innerHTML = title1;
-  document.getElementsByClassName("header_2")[0].innerHTML = title2;
-  document.getElementsByClassName("header_2")[1].innerHTML = title2;
-  document.getElementsByClassName("header_2")[2].innerHTML = title2;
-  document.getElementsByClassName("header_3")[0].innerHTML = title3;
-  document.getElementsByClassName("header_3")[1].innerHTML = title3;
-  document.getElementsByClassName("header_3")[2].innerHTML = title3;
+  document.getElementsByClassName("header_1")[3].innerHTML = title1;
+ // document.getElementsByClassName("header_2")[0].innerHTML = title2;
+  //document.getElementsByClassName("header_2")[1].innerHTML = title2;
+ // document.getElementsByClassName("header_2")[2].innerHTML = title2;
+ // document.getElementsByClassName("header_3")[0].innerHTML = title3;
+ // document.getElementsByClassName("header_3")[1].innerHTML = title3;
+ // document.getElementsByClassName("header_3")[2].innerHTML = title3;
   //alert("title1");
 }
+
 
 function addNumber(table, rowNumber, name, data) {
   if(data.idx != rowNumber){
